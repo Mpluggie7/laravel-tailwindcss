@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProductsListController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,9 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/products', function () {
-    return view('products');
-});
+Route::get('/products/all', [ProductsListController::class, 'index'])->name('products');
+Route::get('/products/insert', [ProductsListController::class, 'insert'])->name('insert');
 
 Route::middleware([
     'auth:sanctum',

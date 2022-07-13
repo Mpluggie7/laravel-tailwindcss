@@ -18,7 +18,8 @@ Route::get('/', function () {
 });
 
 Route::get('/products/all', [ProductsListController::class, 'index'])->name('products');
-Route::get('/products/insert', [ProductsListController::class, 'insert'])->name('insert');
+Route::get('/products/form-add', [ProductsListController::class, 'formAdd'])->name('formAdd');
+Route::post('/products/add', [ProductsListController::class, 'store'])->name('addProduct');
 
 Route::middleware([
     'auth:sanctum',

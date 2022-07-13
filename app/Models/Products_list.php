@@ -18,4 +18,14 @@ class Products_list extends Model
         'retail',
         'active',
     ];
+
+    /**
+     * Get the category associated with the Products_list
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function category()
+    {
+        return $this->hasOne(Category::class, 'id', 'category_id');
+    }
 }

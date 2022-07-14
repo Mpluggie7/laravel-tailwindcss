@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductsListController;
+use App\Http\Controllers\CategoryListController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,8 +19,10 @@ Route::get('/', function () {
 });
 
 Route::get('/products/all', [ProductsListController::class, 'index'])->name('products');
-Route::get('/products/form-add', [ProductsListController::class, 'formAdd'])->name('formAdd');
-Route::post('/products/add', [ProductsListController::class, 'store'])->name('addProduct');
+Route::get('/products/form-add-product', [ProductsListController::class, 'formAddProduct'])->name('formAddProduct');
+Route::post('/products/add', [ProductsListController::class, 'insert'])->name('addProduct');
+
+Route::get('/products/form-add-category', [CategoryListController::class, 'index'])->name('formAddCategory');
 
 Route::middleware([
     'auth:sanctum',

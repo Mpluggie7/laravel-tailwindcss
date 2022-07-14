@@ -28,14 +28,14 @@
 					<tbody class="bg-white dark:bg-slate-800">
 						@foreach ($products_list as $row)
 							<tr>
-								<td class="border-b border-slate-100 p-4 pl-8 text-slate-500 ">{{ $products_list->firstItem()+$loop->index }}</td>
-								<td class="border-b border-slate-100 p-4 text-slate-500 ">{{ $row->category->name }}</td>
-								<td class="border-b border-slate-100 p-4 text-slate-500 ">{{ $row->code }}</td>
-								<td class="border-b border-slate-100 p-4 text-slate-500 ">{{ $row->name }}</td>
-								<td class="border-b border-slate-100 text-right p-4 text-slate-500 ">stock</td>
-								<td class="border-b border-slate-100 text-right p-4 text-slate-500 ">{{ round($row->cost, 2) }}</td>
-								<td class="border-b border-slate-100 text-right p-4 text-slate-500 ">{{ round($row->wholesale, 2) }}</td>
-								<td class="border-b border-slate-100 text-right p-4 pr-8 text-slate-500 ">{{ round($row->retail, 2) }}</td>
+								<td class="border-b border-slate-100 p-4 pl-8 text-slate-700 ">{{ $products_list->firstItem()+$loop->index }}</td>
+								<td class="border-b border-slate-100 p-4 text-slate-700 ">{{ $row->cat_name }}</td>
+								<td class="border-b border-slate-100 p-4 text-slate-700 ">{{ $row->code }}</td>
+								<td class="border-b border-slate-100 p-4 text-slate-700 ">{{ $row->prod_name }}</td>
+								<td class="border-b border-slate-100 text-right p-4 text-slate-700 ">stock</td>
+								<td class="border-b border-slate-100 text-right p-4 text-slate-700 ">{{ round($row->cost, 2) }}</td>
+								<td class="border-b border-slate-100 text-right p-4 text-slate-700 ">{{ round($row->wholesale, 2) }}</td>
+								<td class="border-b border-slate-100 text-right p-4 pr-8 text-slate-700 ">{{ round($row->retail, 2) }}</td>
 							</tr>
 						@endforeach
 					</tbody>

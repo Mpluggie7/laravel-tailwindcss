@@ -11,7 +11,7 @@
     @include('navbar')
 
     <div class="md:pl-60 flex justify-center overflow-hidden">
-        <div class="p-4">
+        <div class="p-4 w-full">
             @yield('content')
         </div>
     </div>

@@ -16,7 +16,7 @@ class ProductsListController extends Controller
             ->leftJoin('categories', function($join) {
                 $join->on('products_lists.category_id', '=', 'categories.id');
             })
-            ->orderBy('cat_name', 'asc')->orderBy('prod_name', 'asc')->paginate(3);
+            ->orderBy('products_lists.updated_at', 'desc')->paginate(3);
         // query builder
         // $products_list = DB::table('products_lists')->paginate(3);
         return view('products', compact('products_list'));
@@ -25,7 +25,7 @@ class ProductsListController extends Controller
     public function formAddProduct() {
         // eloquent
         $category = Category::orderBy('name')->get();
-        return view('form.form-add-product', compact('category'));
+        return view('form.add-product', compact('category'));
     }
 
     public function insert(Request $request) {

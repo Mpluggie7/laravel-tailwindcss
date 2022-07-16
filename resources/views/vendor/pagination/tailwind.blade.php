@@ -23,7 +23,7 @@
         </div>
 
         <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-            <div>
+            <div class="sm:mr-4">
                 <p class="text-xs text-gray-500 leading-5">
                     {!! __('Showing') !!}
                     @if ($paginator->firstItem())

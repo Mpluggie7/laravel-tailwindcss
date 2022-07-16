@@ -22,7 +22,9 @@ Route::get('/products/all', [ProductsListController::class, 'index'])->name('pro
 Route::get('/products/form-add-product', [ProductsListController::class, 'formAddProduct'])->name('formAddProduct');
 Route::post('/products/add', [ProductsListController::class, 'insert'])->name('addProduct');
 
-Route::get('/products/form-add-category', [CategoryListController::class, 'index'])->name('formAddCategory');
+Route::get('/category/all', [CategoryListController::class, 'index'])->name('categories');
+Route::post('/category/add', [CategoryListController::class, 'insert'])->name('addCategory');
+Route::get('/category/edit/{id}', [CategoryListController::class, 'update']);
 
 Route::middleware([
     'auth:sanctum',

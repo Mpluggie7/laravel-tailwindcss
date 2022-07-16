@@ -13,10 +13,10 @@
         <div class="bg-white rounded-xl border shadow border-slate-300 overflow-auto shadow h-fit">
             <div class="block bg-white w-64 mt-8 mb-6">
                 <div class="px-6 pb-2 border-b border-gray-300 text-center">
-                    Add New Category
+                    Edit Category Name
                 </div>
                 <div class="p-6 text-sm">
-                    <form action="" method="POST">
+                    <form action="{{ url('/category/edit/'.$categoryFind->id) }}" method="POST">
                         @csrf
                         <div class="form-group mb-4">
                             <label for="inputCategoryName" class="form-label inline-block mb-2 text-gray-700">Category Name</label>

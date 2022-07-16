@@ -11,42 +11,49 @@
 
 	<div class="grid grid-cols-3 gap-4">
 		<div class="col-span-3 md:col-span-2 flex justify-center">
-            <div class="bg-white rounded-xl border border-slate-300 shadow overflow-auto h-fit">
-                <div class="my-8">
-                    <table class="border-collapse text-sm">
-                        <thead>
-                            <tr>
-                                <th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-gray-700 text-left">No.</th>
-                                <th class="border-b font-medium p-4 pt-0 pb-3 text-gray-700 text-left">Category Name</th>
-                                <th class="border-b font-medium text-center p-4 pt-0 pb-3 text-gray-700 text-left">Edit</th>
-                                <th class="border-b font-medium text-center p-4 pr-8 pt-0 pb-3 text-gray-700 text-left">Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white dark:bg-slate-800">
-                            @foreach ($category_list as $row)
+            <div>
+                @if (session("success"))
+                    <div class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                <div class="bg-white rounded-xl border border-slate-300 shadow overflow-auto h-fit">
+                    <div class="my-8">
+                        <table class="border-collapse text-sm">
+                            <thead>
                                 <tr>
-                                    <td class="border-b border-slate-100 p-4 pl-8 text-slate-700 ">{{ $category_list->firstItem()+$loop->index }}</td>
-                                    <td class="border-b border-slate-100 p-4 text-slate-700 ">{{ $row->name }}</td>
-                                    <td class="border-b border-slate-100 p-4 text-slate-700 ">
-                                        <a href='{{ url('category/edit/'.$row->id) }}' type="button" class="inline-block px-3 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md 
-                                            cursor-pointer hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 
-                                            active:shadow-lg transition duration-150 ease-in-out">
-                                            Edit
-                                        </a>
-                                    </td>
-                                    <td class="border-b border-slate-100 p-4 text-slate-700 ">
-                                        <a href='#' type="button" class="inline-block px-3 py-2.5 bg-red-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md 
-                                            cursor-pointer hover:bg-red-500 hover:shadow-lg focus:bg-red-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 
-                                            active:shadow-lg transition duration-150 ease-in-out">
-                                            Delete
-                                        </a>
-                                    </td>                                
+                                    <th class="border-b font-medium p-4 pl-8 pt-0 pb-3 text-gray-700 text-left">No.</th>
+                                    <th class="border-b font-medium p-4 pt-0 pb-3 text-gray-700 text-left">Category Name</th>
+                                    <th class="border-b font-medium text-center p-4 pt-0 pb-3 text-gray-700 text-left">Edit</th>
+                                    <th class="border-b font-medium text-center p-4 pr-8 pt-0 pb-3 text-gray-700 text-left">Delete</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="text-slate-400 text-sm px-8 mt-2">
-                        {{ $category_list->links() }}
+                            </thead>
+                            <tbody class="bg-white dark:bg-slate-800">
+                                @foreach ($category_list as $row)
+                                    <tr>
+                                        <td class="border-b border-slate-100 p-4 pl-8 text-slate-700 ">{{ $category_list->firstItem()+$loop->index }}</td>
+                                        <td class="border-b border-slate-100 p-4 text-slate-700 ">{{ $row->name }}</td>
+                                        <td class="border-b border-slate-100 p-4 text-slate-700 ">
+                                            <a href='{{ url('category/form-edit/'.$row->id) }}' type="button" class="inline-block px-3 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md 
+                                                cursor-pointer hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 
+                                                active:shadow-lg transition duration-150 ease-in-out">
+                                                Edit
+                                            </a>
+                                        </td>
+                                        <td class="border-b border-slate-100 p-4 pr-8 text-slate-700 ">
+                                            <a href='#' type="button" class="inline-block px-3 py-2.5 bg-red-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md 
+                                                cursor-pointer hover:bg-red-500 hover:shadow-lg focus:bg-red-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 
+                                                active:shadow-lg transition duration-150 ease-in-out">
+                                                Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <div class="text-slate-400 text-sm px-8 mt-2">
+                            {{ $category_list->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

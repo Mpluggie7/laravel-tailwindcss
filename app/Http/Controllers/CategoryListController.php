@@ -39,10 +39,30 @@ class CategoryListController extends Controller
         return redirect()->back()->with('success', 'Add category data complete');
     }
 
-    public function update($id)
+    public function formEdit($id)
     {
         $categoryFind = Category::find($id);
-
         return view('form.edit-category', compact('categoryFind'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // dd($id, $request->categoryName);
+        $request->session()->flash('categoryName', $request->categoryName);
+
+        $request->validate([
+            'categoryName' => 'required|unique:categories,name|max:255'
+        ],
+        [
+            'categoryName.required' => 'Please not leave the blank!',
+            'categoryName.max' => 'Letter must equal or less than 255',
+            'categoryName.unique' => 'Name category has existed'
+        ]);
+
+        $categoryFind = Category::find($id)->update([
+            'name'=>$request->categoryName
+        ]);
+
+        return redirect()->route('categories')->with('success', 'Edit category name complete');
     }
 }

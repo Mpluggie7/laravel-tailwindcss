@@ -10,14 +10,6 @@
     </div>
 
     <div class="flex justify-center">
-        @if (session("success"))
-            <div class="rounded-lg border text-sm border-green-400 shadow-lg bg-green-200 w-96 mb-2 text-gray-500 p-2 px-4">
-                {{ session('success') }}
-            </div>
-        @endif
-    </div>
-
-    <div class="flex justify-center">
         <div class="block p-6 rounded-lg shadow-lg bg-white w-96">
             <form action="{{ route('addProduct') }}" method="post">
                 @csrf

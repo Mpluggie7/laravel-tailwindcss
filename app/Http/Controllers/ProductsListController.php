@@ -66,6 +66,6 @@ class ProductsListController extends Controller
         $productListMD->save();
 
         $request->session()->flush();
-        return redirect()->back()->with('success', 'Add product data complete');
+        return redirect()->route('products')->with('success', 'Add product data complete');
     }
 }

@@ -15,17 +15,27 @@ use App\Http\Controllers\CategoryListController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+    return redirect()->route('products');
 });
 
-Route::get('/products/all', [ProductsListController::class, 'index'])->name('products');
-Route::get('/products/form-add', [ProductsListController::class, 'formAddProduct'])->name('formAddProduct');
-Route::post('/products/add', [ProductsListController::class, 'insert'])->name('addProduct');
+Route::controller(ProductsListController::class)->group(function () {
+    Route::get('/products/all', 'index')->name('products');
+    Route::get('/products/search', 'search')->name('searchProduct');
+    Route::get('/products/form-add', 'formAddProduct')->name('formAddProduct');
+    Route::post('/products/add', 'insert')->name('addProduct');
+    Route::get('/products/form-edit/{id}', 'formEdit');
+    Route::post('/products/edit/{id}', 'update');
+});
 
-Route::get('/category/all', [CategoryListController::class, 'index'])->name('categories');
-Route::post('/category/add', [CategoryListController::class, 'insert'])->name('addCategory');
-Route::get('/category/form-edit/{id}', [CategoryListController::class, 'formEdit']);
-Route::post('/category/edit/{id}', [CategoryListController::class, 'update']);
+Route::controller(CategoryListController::class)->group(function () {
+    Route::get('/category/all','index')->name('categories');
+    Route::get('/category/search','search')->name('searchCategory');
+    Route::get('/category/form-add','formAddCategory')->name('formAddCategory');
+    Route::post('/category/add','insert')->name('addCategory');
+    Route::get('/category/form-edit/{id}','formEdit');
+    Route::post('/category/edit/{id}','update');
+});
 
 Route::middleware([
     'auth:sanctum',

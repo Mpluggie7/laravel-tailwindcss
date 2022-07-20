@@ -10,22 +10,42 @@ use App\Models\Category;
 class ProductsListController extends Controller
 {
     public function index() {
-        // eloquent
-        // $products_list = Products_list::all();
-        $products_list = Products_list::select('products_lists.*', 'products_lists.name as prod_name','categories.*', 'categories.name as cat_name')
+        $products_list = Products_list::
+            select('products_lists.*', 'products_lists.id as prod_id', 'products_lists.name as prod_name','categories.*', 'categories.name as cat_name')
             ->leftJoin('categories', function($join) {
                 $join->on('products_lists.category_id', '=', 'categories.id');
             })
             ->orderBy('products_lists.updated_at', 'desc')->paginate(3);
-        // query builder
-        // $products_list = DB::table('products_lists')->paginate(3);
+        
+        session()->flush();
+        return view('products', compact('products_list'));
+    }
+
+    public function search(Request $request)
+    {
+        $request->session()->flash('productSearch', $request->productSearch);
+        
+        $request->validate([
+            'productSearch' => 'required|min:3|max:255',
+        ]);
+        $productSearch = $request->productSearch;
+
+        $products_list = Products_list::
+            select('products_lists.*', 'products_lists.id as prod_id', 'products_lists.name as prod_name','categories.*', 'categories.name as cat_name')
+            ->leftJoin('categories', function($join) {
+                $join->on('products_lists.category_id', '=', 'categories.id');
+            })
+            ->where('categories.name', 'like', '%'.$productSearch.'%')
+            ->orWhere('code', 'like', '%'.$productSearch.'%')
+            ->orWhere('products_lists.name', 'like', '%'.$productSearch.'%')
+            ->paginate(1);
+
         return view('products', compact('products_list'));
     }
 
     public function formAddProduct() {
-        // eloquent
-        $category = Category::orderBy('name')->get();
-        return view('form.add-product', compact('category'));
+        $category = Category::all();
+        return view('form.product-add', compact('category'));
     }
 
     public function insert(Request $request) {
@@ -44,16 +64,6 @@ class ProductsListController extends Controller
             'cost' => 'required',
             'wholesale' => 'required',
             'retail' => 'required'
-        ],
-        [
-            'productCode.required' => 'Please not leave the blank!',
-            'productCode.max' => 'Letter must equal or less than 255',
-            'productName.required' => 'Please not leave the blank!',
-            'productName.max' => 'Letter must equal or less than 255',
-            'category.required' => 'Please not leave the blank!',
-            'cost.required' => 'Please not leave the blank!',
-            'wholesale.required' => 'Please not leave the blank!',
-            'retail.required' => 'Please not leave the blank!',
         ]);
 
         $productListMD = new Products_list;
@@ -67,5 +77,57 @@ class ProductsListController extends Controller
 
         $request->session()->flush();
         return redirect()->route('products')->with('success', 'Add product data complete');
+    }
+
+    public function formEdit($id)
+    {
+        $product = Products_list::find($id);
+        $category = Category::all();
+        return view('form.product-edit', compact('product', 'category'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->session()->flash('productCode', $request->productCode);
+        $request->session()->flash('productName', $request->productName);
+        $request->session()->flash('category', $request->category);
+        $request->session()->flash('cost', $request->cost);
+        $request->session()->flash('wholesale', $request->wholesale);
+        $request->session()->flash('retail', $request->retail);
+        $request->session()->flash('stock', $request->stock);
+
+        $request->validate([
+            'productCode' => 'required|max:255',
+            'productName' => 'required|max:255',
+            'category' => 'required',
+            'cost' => 'required',
+            'wholesale' => 'required',
+            'retail' => 'required'
+        ]);
+
+        $productFind = Products_list::where('code', $request->productCode)
+            ->where('name', $request->productName)
+            ->where('category_id', $request->category)
+            ->where('cost', $request->cost)
+            ->where('wholesale', $request->wholesale)
+            ->where('retail', $request->retail)
+            ->get();
+        
+        if ($productFind->count() > 0) {
+            return redirect()->back()->with('error', 'All data are duplicate!');
+
+        } else {
+            $productUpdate = Products_list::find($id);
+            $productUpdate->category_id = $request->category; 
+            $productUpdate->code = $request->productCode; 
+            $productUpdate->name = $request->productName; 
+            $productUpdate->cost = $request->cost; 
+            $productUpdate->wholesale = $request->wholesale; 
+            $productUpdate->retail = $request->retail; 
+            $productUpdate->save();
+
+            $request->session()->flush();
+            return redirect()->route('products')->with('success', 'Update product data complete');
+        }
     }
 }

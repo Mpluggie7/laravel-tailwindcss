@@ -1,7 +1,7 @@
 @extends('layouts.main-layout')
 
 @section('title')
-	Category-Edit
+	Category - Edit
 @endsection
 
 @section('content')
@@ -12,9 +12,6 @@
     <div class="flex justify-center">
         <div class="bg-white rounded-xl border shadow border-slate-300 overflow-auto shadow h-fit">
             <div class="block bg-white w-64 mt-8 mb-6">
-                <div class="px-6 pb-2 border-b border-gray-300 text-center">
-                    Edit Category Name
-                </div>
                 <div class="p-6 text-sm">
                     <form action="{{ url('/category/edit/'.$categoryFind->id) }}" method="POST">
                         @csrf

@@ -9,17 +9,34 @@ use App\Models\Category;
 class CategoryListController extends Controller
 {
     public function index() {
-        // eloquent
         $category_list = Category::orderBy('updated_at', 'desc')->paginate(3);
-        // query builder
-        // $category_list = DB::table('categories')->paginate(3);
 
         return view('categories', compact('category_list'));
     }
 
+    public function search(Request $request)
+    {
+        $request->session()->flash('categorySearch', $request->categorySearch);
+        $request->validate([
+            'categorySearch' => 'required|min:3|max:255'
+        ],
+        [
+            'categorySearch.required' => 'Please not leave the blank!',
+            'categorySearch.min' => 'Letter must equal or more than 3',
+            'categorySearch.max' => 'Letter must equal or less than 255'
+        ]);
+
+        $category_list = Category::where('name', 'like', '%'.$request->categorySearch.'%')->paginate(3);  
+        return view('categories', compact('category_list'));
+    }
+
+    public function formAddCategory()
+    {
+        return view('form.category-add');
+    }
+
     public function insert(Request $request)
     {
-        // dd($request->category_name);
         $request->session()->flash('categoryName', $request->categoryName);
 
         $request->validate([
@@ -42,12 +59,11 @@ class CategoryListController extends Controller
     public function formEdit($id)
     {
         $categoryFind = Category::find($id);
-        return view('form.edit-category', compact('categoryFind'));
+        return view('form.category-edit', compact('categoryFind'));
     }
 
     public function update(Request $request, $id)
     {
-        // dd($id, $request->categoryName);
         $request->session()->flash('categoryName', $request->categoryName);
 
         $request->validate([

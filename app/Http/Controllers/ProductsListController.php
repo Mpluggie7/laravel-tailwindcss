@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Products_list;
 use App\Models\Category;
 
@@ -23,22 +22,21 @@ class ProductsListController extends Controller
 
     public function search(Request $request)
     {
-        $request->session()->flash('productSearch', $request->productSearch);
+        $productSearch = $request->productSearch;
         
         $request->validate([
             'productSearch' => 'required|min:3|max:255',
         ]);
-        $productSearch = $request->productSearch;
 
         $products_list = Products_list::
-            select('products_lists.*', 'products_lists.id as prod_id', 'products_lists.name as prod_name','categories.*', 'categories.name as cat_name')
-            ->leftJoin('categories', function($join) {
-                $join->on('products_lists.category_id', '=', 'categories.id');
-            })
-            ->where('categories.name', 'like', '%'.$productSearch.'%')
-            ->orWhere('code', 'like', '%'.$productSearch.'%')
-            ->orWhere('products_lists.name', 'like', '%'.$productSearch.'%')
-            ->paginate(1);
+        select('products_lists.*', 'products_lists.id as prod_id', 'products_lists.name as prod_name','categories.*', 'categories.name as cat_name')
+        ->leftJoin('categories', function($join) {
+            $join->on('products_lists.category_id', '=', 'categories.id');
+        })
+        ->where('categories.name', 'like', '%'.$productSearch.'%')
+        ->orWhere('code', 'like', '%'.$productSearch.'%')
+        ->orWhere('products_lists.name', 'like', '%'.$productSearch.'%')
+        ->paginate(1);
 
         return view('products', compact('products_list'));
     }
@@ -58,8 +56,8 @@ class ProductsListController extends Controller
         $request->session()->flash('stock', $request->stock);
 
         $request->validate([
-            'productCode' => 'required|max:255',
-            'productName' => 'required|max:255',
+            'productCode' => 'required|max:255|min:3',
+            'productName' => 'required|max:255|min:3',
             'category' => 'required',
             'cost' => 'required',
             'wholesale' => 'required',
@@ -97,8 +95,8 @@ class ProductsListController extends Controller
         $request->session()->flash('stock', $request->stock);
 
         $request->validate([
-            'productCode' => 'required|max:255',
-            'productName' => 'required|max:255',
+            'productCode' => 'required|max:255|min:3',
+            'productName' => 'required|max:255|min:3',
             'category' => 'required',
             'cost' => 'required',
             'wholesale' => 'required',
@@ -115,19 +113,18 @@ class ProductsListController extends Controller
         
         if ($productFind->count() > 0) {
             return redirect()->back()->with('error', 'All data are duplicate!');
-
-        } else {
-            $productUpdate = Products_list::find($id);
-            $productUpdate->category_id = $request->category; 
-            $productUpdate->code = $request->productCode; 
-            $productUpdate->name = $request->productName; 
-            $productUpdate->cost = $request->cost; 
-            $productUpdate->wholesale = $request->wholesale; 
-            $productUpdate->retail = $request->retail; 
-            $productUpdate->save();
-
-            $request->session()->flush();
-            return redirect()->route('products')->with('success', 'Update product data complete');
         }
+
+        $productUpdate = Products_list::find($id);
+        $productUpdate->category_id = $request->category; 
+        $productUpdate->code = $request->productCode; 
+        $productUpdate->name = $request->productName; 
+        $productUpdate->cost = $request->cost; 
+        $productUpdate->wholesale = $request->wholesale; 
+        $productUpdate->retail = $request->retail; 
+        $productUpdate->save();
+
+        $request->session()->flush();
+        return redirect()->route('products')->with('success', 'Update product data complete');
     }
 }

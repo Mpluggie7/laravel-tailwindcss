@@ -55,10 +55,10 @@
 								<th class="border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Category</th>
 								<th class="border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Code</th>
 								<th class="border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Name</th>
-								<th class="border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Stock</th>
-								<th class="border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Cost</th>
-								<th class="border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Wholesale</th>
-								<th class="border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Retail</th>
+								<th class="border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-right">Stock</th>
+								<th class="border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-right">Cost</th>
+								<th class="border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-right">Wholesale</th>
+								<th class="border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-right">Retail</th>
 								<th class="border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-center">Edit</th>
 								<th class="border-b font-medium p-4 pr-8 pt-0 pb-3 text-slate-400 text-center">Delete</th>
 							</tr>
@@ -70,7 +70,7 @@
 									<td class="border-b border-slate-100 p-4 text-slate-700 ">{{ $row->cat_name }}</td>
 									<td class="border-b border-slate-100 p-4 text-slate-700 ">{{ $row->code }}</td>
 									<td class="border-b border-slate-100 p-4 text-slate-700 ">{{ $row->prod_name }}</td>
-									<td class="border-b border-slate-100 text-right p-4 text-slate-700 ">stock</td>
+									<td class="border-b border-slate-100 text-right p-4 text-slate-700 ">{{ $row->sum_stock }}</td>
 									<td class="border-b border-slate-100 text-right p-4 text-slate-700 ">{{ round($row->cost, 2) }}</td>
 									<td class="border-b border-slate-100 text-right p-4 text-slate-700 ">{{ round($row->wholesale, 2) }}</td>
 									<td class="border-b border-slate-100 text-right p-4 text-slate-700 ">{{ round($row->retail, 2) }}</td>

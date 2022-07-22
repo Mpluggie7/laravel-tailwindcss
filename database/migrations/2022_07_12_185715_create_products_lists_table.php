@@ -21,6 +21,7 @@ class CreateProductsListsTable extends Migration
             $table->float('cost')->default(0.00);
             $table->float('wholesale')->default(0.00);
             $table->float('retail')->default(0.00);
+            $table->integer('sum_stock')->unsigned()->default(0)
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();

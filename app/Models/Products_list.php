@@ -16,6 +16,7 @@ class Products_list extends Model
         'cost',
         'wholesale',
         'retail',
+        'sum_stock',
         'active',
     ];
 

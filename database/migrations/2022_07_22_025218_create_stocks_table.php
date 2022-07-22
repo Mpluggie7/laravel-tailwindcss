@@ -15,6 +15,12 @@ class CreateStocksTable extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
+            $table->integer('product_id')->unsigned();
+            $table->integer('amount')->unsigned();
+            $table->float('price_each')->default(0.00);
+            $table->integer('in_out')->unsigned()->default(0);
+            $table->integer('invoice_id')->unsigned()->default(0);
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
